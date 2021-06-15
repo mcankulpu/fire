@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:fire/login.dart';
+import 'package:fire/mainlogged.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -65,13 +66,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
       _googleSignIn.onCurrentUserChanged.listen((account) 
 {
- 
-       setState(() {
-      username = _googleSignIn.currentUser?.displayName;
-      userimg = _googleSignIn.currentUser?.photoUrl;
-    });
-  
-  
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => MainLogged(user: _googleSignIn.currentUser  ),
+    ));
+       
 });
 _googleSignIn.signInSilently();
  
