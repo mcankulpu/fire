@@ -75,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
 });
 _googleSignIn.signInSilently();
  
-  }
+  } 
 
   @override
   Widget build(BuildContext context) {

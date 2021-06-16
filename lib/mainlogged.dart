@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:fire/login.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 GoogleSignIn _googleSignIn = GoogleSignIn(
   scopes: [
@@ -46,8 +47,15 @@ class _MainLoggedState extends State<MainLogged> {
                                   Column(
                                     children: [
                                       ListTile(
-                                        leading:
-                                            Image.network(widget.user.photoUrl),
+                                        leading:Container(width: 48,height: 48,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                            fit: BoxFit.fill,
+                                            image: NetworkImage(widget.user.photoUrl)
+                                          ),
+                                        ),),
+                                            
                                         title: Text(widget.user.displayName),
                                         subtitle: Text(widget.user.email),
                                       ),
@@ -99,9 +107,11 @@ class _MainLoggedState extends State<MainLogged> {
                           context: context);
                     },
                     child: CircleAvatar(
-                        child: Image.network(
-                          widget.user.photoUrl,
-                          fit: BoxFit.cover,
+                      radius: 45,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(45),
+                          child: CachedNetworkImage(imageUrl: widget.user.photoUrl,fit: BoxFit.cover,
+                          placeholder: (context,url) => CircularProgressIndicator()),
                         ),
                         backgroundColor: Colors.transparent),
                   ),
