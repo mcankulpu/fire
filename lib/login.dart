@@ -60,7 +60,7 @@ class _LoginState extends State<Login> {
 
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
-    await _googleSignIn.signOut();
+     _googleSignIn.signOut();
   }
 
   @override

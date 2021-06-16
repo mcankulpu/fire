@@ -1,4 +1,3 @@
-
 import 'package:fire/main.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -7,7 +6,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:fire/login.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-
 
 class MainLogged extends StatefulWidget {
   final user;
@@ -18,6 +16,16 @@ class MainLogged extends StatefulWidget {
 }
 
 class _MainLoggedState extends State<MainLogged> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback(
+        (_) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text("Welcome, " + widget.user.displayName),
+              duration: Duration(seconds: 3),
+            )));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,22 +46,23 @@ class _MainLoggedState extends State<MainLogged> {
                     onTap: () async {
                       await showDialog(
                           builder: (context) => SimpleDialog(
-                            shape:new RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(15)),
+                                shape: new RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15)),
                                 children: [
                                   Column(
-                                  
                                     children: [
                                       ListTile(
-                                        leading:Container(width: 48,height: 48,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          image: DecorationImage(
-                                            fit: BoxFit.fill,
-                                            image: NetworkImage(widget.user.photoUrl)
+                                        leading: Container(
+                                          width: 48,
+                                          height: 48,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                                fit: BoxFit.fill,
+                                                image: NetworkImage(
+                                                    widget.user.photoUrl)),
                                           ),
-                                        ),),
-                                            
+                                        ),
                                         title: Text(widget.user.displayName),
                                         subtitle: Text(widget.user.email),
                                       ),
@@ -69,11 +78,14 @@ class _MainLoggedState extends State<MainLogged> {
                                         color: Colors.blue[600],
                                         onPressed: () {
                                           Login().singOut();
-                                          Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => MyHomePage(title: "Fire"),
-    ));
+                                          Navigator.pushAndRemoveUntil(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      MyHomePage(
+                                                          title: "Fire")),
+                                              (Route<dynamic> route) => false);
+                                          
                                         },
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
@@ -105,11 +117,14 @@ class _MainLoggedState extends State<MainLogged> {
                           context: context);
                     },
                     child: CircleAvatar(
-                      radius: 45,
+                        radius: 45,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(45),
-                          child: CachedNetworkImage(imageUrl: widget.user.photoUrl,fit: BoxFit.cover,
-                          placeholder: (context,url) => CircularProgressIndicator()),
+                          child: CachedNetworkImage(
+                              imageUrl: widget.user.photoUrl,
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) =>
+                                  CircularProgressIndicator()),
                         ),
                         backgroundColor: Colors.transparent),
                   ),
