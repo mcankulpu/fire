@@ -1,3 +1,4 @@
+
 import 'package:fire/main.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -7,12 +8,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:fire/login.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-GoogleSignIn _googleSignIn = GoogleSignIn(
-  scopes: [
-    'email',
-    'https://www.googleapis.com/auth/contacts.readonly',
-  ],
-);
 
 class MainLogged extends StatefulWidget {
   final user;
@@ -43,8 +38,11 @@ class _MainLoggedState extends State<MainLogged> {
                     onTap: () async {
                       await showDialog(
                           builder: (context) => SimpleDialog(
+                            shape:new RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(15)),
                                 children: [
                                   Column(
+                                  
                                     children: [
                                       ListTile(
                                         leading:Container(width: 48,height: 48,
