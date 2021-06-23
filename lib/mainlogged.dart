@@ -1,6 +1,7 @@
 import 'package:fire/main.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -85,7 +86,6 @@ class _MainLoggedState extends State<MainLogged> {
                                                       MyHomePage(
                                                           title: "Fire")),
                                               (Route<dynamic> route) => false);
-                                          
                                         },
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
@@ -131,7 +131,27 @@ class _MainLoggedState extends State<MainLogged> {
                 ),
         ],
       ),
-      body: Container(),
+      body: FutureBuilder<QuerySnapshot>(
+          // <2> Pass `Future<QuerySnapshot>` to future
+          future: FirebaseFirestore.instance.collection('data').get(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              final List<DocumentSnapshot> documents = snapshot.data!.docs;
+              return ListView(
+                  children: documents
+                      .map((doc) => Card(
+                            child: ListTile(
+                              title: Text(doc['name']),
+                              subtitle: Text(doc['job']),
+                            ),
+                          ))
+                      .toList());
+            } else if (snapshot.hasError) {
+              return Text("Error");
+            }
+            return const Center(child: CircularProgressIndicator());
+            
+          }),
     );
   }
 }

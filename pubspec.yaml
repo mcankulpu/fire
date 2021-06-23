@@ -33,6 +33,7 @@ dependencies:
   google_sign_in: ^5.0.0-nullsafety
   google_fonts: ^2.1.0
   cached_network_image: ^3.0.0
+  cloud_firestore: "^2.2.2"
 
 
 dev_dependencies:
