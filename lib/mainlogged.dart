@@ -141,6 +141,9 @@ class _MainLoggedState extends State<MainLogged> {
                   children: documents
                       .map((doc) => Card(
                             child: ListTile(
+                              leading: ClipRRect(
+                                borderRadius: BorderRadius.circular(45),
+                                child: Image.network(doc['img'],fit: BoxFit.cover,)),
                               title: Text(doc['name']),
                               subtitle: Text(doc['job']),
                             ),
